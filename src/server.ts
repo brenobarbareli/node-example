@@ -1,13 +1,7 @@
 import express from 'express'
+import 'reflect-metadata'
+import './data-source'
 
 const app = express()
-
-app.get('/test', (request, response) => {
-  return response.send('funcionou')
-})
-
-app.post('/test-post', (request, response) => {
-  return response.send('funcionou o post')
-})
 
 app.listen(3000, () => console.log('server is running'))
