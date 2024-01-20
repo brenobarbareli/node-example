@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { DataSource } from 'typeorm'
 
 export const AppDataSource = new DataSource({
@@ -8,12 +9,8 @@ export const AppDataSource = new DataSource({
   password: 'root',
   database: 'nlw',
   synchronize: true,
-  logging: true,
-  entities: [],
+  logging: false,
+  migrations: ['src/database/migrations/*.ts'],
+  entities: ['src/entities'],
   subscribers: [],
-  migrations: [],
 })
-
-AppDataSource.initialize()
-  .then(() => {})
-  .catch((error) => console.log(error))
