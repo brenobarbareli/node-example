@@ -8,7 +8,7 @@ const getUsers = (): Promise<User[]> => {
   return userRepository.find()
 }
 
-const getUserById = (id: string): Promise<User> => {
+const getUserById = (id: string): Promise<User | null> => {
   return userRepository.findOneBy({
     id: id,
   })
@@ -19,12 +19,19 @@ const insertUser = (
   email: string,
   admin: boolean = false,
 ): Promise<InsertResult> => {
-  const newUser = new User()
-  newUser.name = name
-  newUser.email = email
-  newUser.admin = admin
+  const newUser = userRepository.create({
+    name: name,
+    email: email,
+    admin: admin,
+  })
 
   return userRepository.insert(newUser)
 }
 
-export default { getUsers, insertUser, getUserById }
+const verifyIsUserWithSameEmail = (email: string): Promise<User | null> => {
+  return userRepository.findOneBy({
+    email: email,
+  })
+}
+
+export default { getUsers, insertUser, getUserById, verifyIsUserWithSameEmail }

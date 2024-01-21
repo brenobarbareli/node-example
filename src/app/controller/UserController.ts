@@ -27,12 +27,26 @@ userRouter.post(
     try {
       const { name, email, admin } = req.body
 
+      const userAlreadyExists = await UserRepository.verifyIsUserWithSameEmail(
+        email,
+      )
+
+      if (userAlreadyExists) {
+        throw new Error('userAlreadyExists')
+      }
+
       const result = await UserRepository.insertUser(name, email, admin)
 
       return res.status(201).json(result)
     } catch (error) {
       console.error(error)
-      return res.status(400).json({ error: 'Erro ao criar usuário' })
+      if (error.message === 'userAlreadyExists') {
+        console.log('entrou')
+        return res
+          .status(400)
+          .json({ parameter: 'Já existe um usuário cadastrado com esse email' })
+      }
+      return res.status(400).json({ parameter: 'Erro ao criar usuário' })
     }
   },
 )
