@@ -3,6 +3,7 @@ export interface IUser {
   name: string
   email: string
   admin: boolean
+  password?: string
   createdAt: Date
   updatedAt: Date
 }
@@ -10,5 +11,6 @@ export interface IUser {
 export interface ICreateUser {
   name: string
   email: string
+  password: string
   admin?: boolean
 }

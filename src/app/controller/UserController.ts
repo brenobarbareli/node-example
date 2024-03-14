@@ -24,7 +24,7 @@ userRouter.post(
     req: Request<{}, {}, ICreateUser>,
     res: Response,
   ): Promise<Response> => {
-    const { name, email, admin } = req.body
+    const { name, email, admin, password } = req.body
 
     const userAlreadyExists = await UserRepository.verifyIsUserWithSameEmail(
       email,
@@ -34,7 +34,7 @@ userRouter.post(
       throw new Error('user already exists')
     }
 
-    const result = await UserRepository.insertUser(name, email, admin)
+    const result = await UserRepository.insertUser(name, email, admin, password)
 
     return res.status(201).json(result)
   },
