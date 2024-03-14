@@ -1,4 +1,4 @@
-import { InsertResult } from 'typeorm'
+import { InsertResult, UpdateResult } from 'typeorm'
 import { AppDataSource } from '../../database/data-source'
 import Tag from '../entities/Tag'
 
@@ -26,4 +26,8 @@ function insertTag(name: string): Promise<InsertResult> {
   return tagsRepository.insert(newTag)
 }
 
-export default { getTags, getTabById, getTagByName, insertTag }
+async function updateTag(id: string, name: string): Promise<UpdateResult> {
+  return tagsRepository.update(id, { name })
+}
+
+export default { getTags, getTabById, getTagByName, insertTag, updateTag }

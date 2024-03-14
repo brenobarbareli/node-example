@@ -6,5 +6,6 @@ export interface ITag {
 }
 
 export interface ICreateTag {
+  id?: string
   name: string
 }

@@ -32,4 +32,35 @@ tagRouter.post(
   },
 )
 
+tagRouter.put(
+  '/:id',
+  async (
+    req: Request<{ id }, {}, ICreateTag>,
+    res: Response,
+  ): Promise<Response> => {
+    const { name } = req.body
+    const id = req.params.id
+
+    if (!id) {
+      throw new Error('Incorrect id')
+    }
+
+    if (!name) {
+      throw new Error('Incorrect name!')
+    }
+
+    const tagToUpdate = await TagsRepository.getTabById(id)
+
+    if (!tagToUpdate) {
+      throw new Error('Tag not found')
+    }
+
+    tagToUpdate.name = name
+
+    const tags = await TagsRepository.updateTag(id, name)
+
+    return res.status(200).json({ parameter: 'tag.updated' })
+  },
+)
+
 export default tagRouter
